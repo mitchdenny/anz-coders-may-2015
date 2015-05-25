@@ -1,0 +1,13 @@
+{
+  "name": "SendEventsViaNode",
+  "version": "0.0.0",
+  "description": "SendEventsViaNode",
+  "main": "app.js",
+  "author": {
+    "name": "mitch",
+    "email": ""
+  },
+  "dependencies": {
+    "shared-access-signature": "^1.1.3"
+  }
+}
