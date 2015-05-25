@@ -8,6 +8,7 @@
     "email": ""
   },
   "dependencies": {
+    "moment": "^2.10.3",
     "shared-access-signature": "^1.1.3"
   }
 }
