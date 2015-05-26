@@ -20,9 +20,6 @@ namespace SendEventsViaDotNet
 
         private static Random random = new Random();
 
-        private string @namespace;
-        private string eventHub;
-        private string signature;
         private int intervalDuration;
         private Thread tickThread;
 
