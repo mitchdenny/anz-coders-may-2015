@@ -44,11 +44,16 @@ var Device = function (name, namespace, eventHub, signature) {
 
 var devices = [];
 
-for (var deviceIndex = 0; deviceIndex < 1; deviceIndex++) {
+for (var deviceIndex = 0; deviceIndex < 100; deviceIndex++) {
 
     var name = util.format('device%s', deviceIndex);
     var namespace = 'anzcoders';
     var eventHub = 'readings';
+    
+    // This signature below would normally be generated on the server so
+    // that the shared access key isn't revealed. You can only have a
+    // certain number of keys / access policies - definately not enough
+    // for one per device.    
     var url = util.format('https://%s.servicebus.windows.net/%s/publishers/%s/messages', namespace, eventHub, name);
     var expiry = moment().add(1, 'year').unix();
     var signature = sas.generateServiceBusSignature(url, 'send201505250001', 'M6YNE9Y9oTV2vbNXeNOzO0mCTMq4lFh0U+nzVgkFz90=', expiry);

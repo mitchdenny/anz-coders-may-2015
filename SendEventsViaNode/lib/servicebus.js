@@ -54,13 +54,19 @@ function EventHubClient(namespace, eventHub, device, sharedAccessSignature) {
             );
             
             var request = https.request(options, function (response) {
-                response.on('data', function (data) {
-                    callback(null);
-                });
-            });
-            
-            request.on('error', function (err) {
-                callback(err);
+                if (response.statusCode != 201) {
+                    var message = util.format(
+                        'Error sending event. The response code was "%s" and the error message was "%s"',
+                        response.statusCode,
+                        response.statusMessage
+                    );
+                    
+                    var error = new Error(message);
+                    callback(error);
+                    return;
+                }
+
+                callback(null);
             });
             
             request.write(payload);
