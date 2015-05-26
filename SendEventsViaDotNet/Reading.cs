@@ -10,7 +10,7 @@ namespace SendEventsViaDotNet
     public class Reading
     {
         [JsonProperty("instant")]
-        public int Instant { get; set; }
+        public double Instant { get; set; }
 
         [JsonProperty("device")]
         public string Device { get; set; }

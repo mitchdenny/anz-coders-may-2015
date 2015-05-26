@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.ServiceBus.Messaging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,12 +12,9 @@ namespace SendEventsViaDotNet
 {
     public class Device
     {
-        public Device(string name, string @namespace, string eventHub, string signature)
+        public Device(string name)
         {
             this.Name = name;
-            this.@namespace = @namespace;
-            this.eventHub = eventHub;
-            this.signature = signature;
             this.intervalDuration = Device.random.Next(1000, 10000);
         }
 
@@ -34,6 +33,26 @@ namespace SendEventsViaDotNet
             while (true)
             {
                 Thread.Sleep(this.intervalDuration);
+
+                var epoch = DateTimeOffset.Parse("1970-01-01");
+                var timeSinceEpoch = DateTimeOffset.Now - epoch;
+
+                var reading = new Reading()
+                {
+                    Instant = Math.Floor(timeSinceEpoch.TotalSeconds),
+                    Device = this.Name,
+                    BatteryLevel = 0,
+                    LiquidDepth = 0,
+                    WaterDetected = false
+                };
+
+                var json = JsonConvert.SerializeObject(reading);
+                var payload = Encoding.UTF8.GetBytes(json);
+                var @event = new EventData(payload);
+
+                var connectionString = string.Format("Endpoint=sb://anzcoders.servicebus.windows.net/;EntityPath=readings/publishers/{0};SharedAccessKeyName=send201505250001;SharedAccessKey=M6YNE9Y9oTV2vbNXeNOzO0mCTMq4lFh0U+nzVgkFz90=", this.Name);
+                var client = EventHubClient.CreateFromConnectionString(connectionString);
+                client.Send(@event);
             }
         }
 

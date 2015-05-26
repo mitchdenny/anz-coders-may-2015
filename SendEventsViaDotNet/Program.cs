@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.ServiceBus;
+using Microsoft.ServiceBus.Messaging;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,17 +17,14 @@ namespace SendEventsViaDotNet
             {
                 Console.WriteLine("Press ENTER to start devices.");
                 Console.ReadLine();
-                
+
                 var devices = new List<Device>();
 
                 for (var deviceIndex = 0; deviceIndex < 100; deviceIndex++)
                 {
                     var name = string.Format("device{0}", deviceIndex);
-                    var @namespace = "anzcoders";
-                    var eventHub = "readings";
-                    var signature = string.Empty;
-    
-                var device = new Device(name, @namespace, eventHub, signature);
+
+                    var device = new Device(name);
                     devices.Add(device);
 
                     Console.WriteLine("Starting {0}...", device.Name);
