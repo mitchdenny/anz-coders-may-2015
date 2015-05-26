@@ -53,6 +53,8 @@ namespace SendEventsViaDotNet
                 var connectionString = string.Format("Endpoint=sb://anzcoders.servicebus.windows.net/;EntityPath=readings/publishers/{0};SharedAccessKeyName=send201505250001;SharedAccessKey=M6YNE9Y9oTV2vbNXeNOzO0mCTMq4lFh0U+nzVgkFz90=", this.Name);
                 var client = EventHubClient.CreateFromConnectionString(connectionString);
                 client.Send(@event);
+
+                Console.WriteLine(json);
             }
         }
 
